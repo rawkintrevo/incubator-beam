@@ -157,14 +157,14 @@ public class TwitterWindowedWordCountExamples {
     Pipeline pipeline = Pipeline.create(options);
 
     PCollection<String> words =pipeline
-            .apply("TwitterStreamingWordCount", Read.from(UnboundedFlinkSource.of(twitterSource)));
-          /*  .apply( ParDo.of(new ExtractWordsFn()))
+            .apply("TwitterStreamingWordCount", Read.from(UnboundedFlinkSource.of(twitterSource)))
+            .apply( ParDo.of(new ExtractWordsFn()))
             .apply(Window.<String>into(SlidingWindows.of(
                     Duration.standardSeconds(options.getWindowSize()))
                     .every(Duration.standardSeconds(options.getSlide())))
                     .triggering(AfterWatermark.pastEndOfWindow()).withAllowedLateness(Duration.ZERO)
                     .discardingFiredPanes());
-*/
+
     PCollection<KV<String, Long>> wordCounts =
             words.apply(Count.<String>perElement());
 
